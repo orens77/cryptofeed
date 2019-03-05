@@ -20,6 +20,7 @@ KRAKEN = 'KRAKEN'
 BINANCE = 'BINANCE'
 EXX = 'EXX'
 HUOBI = 'HUOBI'
+ETALE = 'ETALE'
 
 L2_BOOK = 'l2_book'
 L3_BOOK = 'l3_book'
@@ -28,6 +29,7 @@ TRADES = 'trades'
 TICKER = 'ticker'
 VOLUME = 'volume'
 FUNDING = 'funding'
+CANDLES = 'candles'
 UNSUPPORTED = 'unsupported'
 
 BUY = 'buy'
@@ -39,6 +41,8 @@ UND = 'undefined'
 
 DEL = 'delete'
 UPD = 'update'
+
+FEE = 'fee'
 
 """
 L2 Orderbook Layout

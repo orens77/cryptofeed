@@ -107,7 +107,8 @@ class FeedHandler:
                     loop.create_task(self._rest_connect(feed))
                 else:
                     loop.create_task(self._connect(feed))
-            loop.run_forever()
+            if not loop.is_running():
+                loop.run_forever()
         except KeyboardInterrupt:
             LOG.info("Keyboard Interrupt received - shutting down")
         except Exception:

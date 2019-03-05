@@ -10,11 +10,10 @@ between exchanges. These include trading pairs, timestamps, and
 data channel names
 '''
 from datetime import datetime as dt
-import calendar
 import logging
 
-from cryptofeed.defines import (L2_BOOK, L3_BOOK, TRADES, TICKER, VOLUME, FUNDING, UNSUPPORTED, BITFINEX,
-                                POLONIEX, HITBTC, BITSTAMP, COINBASE, BITMEX, KRAKEN, BINANCE, EXX, HUOBI)
+from cryptofeed.defines import (CANDLES, L2_BOOK, L3_BOOK, TRADES, TICKER, VOLUME, FUNDING, UNSUPPORTED, BITFINEX,
+                                POLONIEX, HITBTC, BITSTAMP, COINBASE, BITMEX, KRAKEN, BINANCE, EXX, HUOBI, ETALE)
 from cryptofeed.pairs import gen_pairs
 
 
@@ -61,8 +60,8 @@ def pair_exchange_to_std(pair):
 def timestamp_normalize(exchange, ts):
     if exchange == BITMEX or exchange == COINBASE:
         ts = dt.strptime(ts, "%Y-%m-%dT%H:%M:%S.%fZ")
-        return calendar.timegm(ts.utctimetuple())
-    elif exchange in  {HUOBI, BITFINEX}:
+        return ts.timestamp()
+    elif exchange in  {HUOBI, BITFINEX, BINANCE}:
         return ts / 1000.0
     return ts
 
@@ -78,7 +77,8 @@ _feed_to_exchange_map = {
         KRAKEN: 'book',
         BINANCE: 'depth20',
         EXX: 'ENTRUST_ADD',
-        HUOBI: 'depth.step0'
+        HUOBI: 'depth.step0',
+        ETALE: L2_BOOK,
     },
     L3_BOOK: {
         BITFINEX: 'book-R0-F0-100',
@@ -90,7 +90,8 @@ _feed_to_exchange_map = {
         KRAKEN: UNSUPPORTED,
         BINANCE: UNSUPPORTED,
         EXX: UNSUPPORTED,
-        HUOBI: UNSUPPORTED
+        HUOBI: UNSUPPORTED,
+        ETALE: UNSUPPORTED
     },
     TRADES: {
         POLONIEX: UNSUPPORTED,
@@ -102,7 +103,8 @@ _feed_to_exchange_map = {
         KRAKEN: 'trade',
         BINANCE: 'trade',
         EXX: 'TRADE',
-        HUOBI: 'trade.detail'
+        HUOBI: 'trade.detail',
+        ETALE: TRADES
     },
     TICKER: {
         POLONIEX: 1002,
@@ -113,7 +115,8 @@ _feed_to_exchange_map = {
         BITMEX: UNSUPPORTED,
         KRAKEN: TICKER,
         BINANCE: 'ticker',
-        HUOBI: UNSUPPORTED
+        HUOBI: UNSUPPORTED,
+        ETALE: UNSUPPORTED
     },
     VOLUME: {
         POLONIEX: 1003
@@ -121,6 +124,9 @@ _feed_to_exchange_map = {
     FUNDING: {
         BITMEX: 'funding',
         BITFINEX: 'trades'
+    },
+    CANDLES: {
+        ETALE: CANDLES
     }
 }
 

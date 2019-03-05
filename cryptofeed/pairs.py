@@ -9,7 +9,7 @@ Pair generation code for exchanges
 '''
 import requests
 
-from cryptofeed.defines import BITSTAMP, BITFINEX, COINBASE, GEMINI, HITBTC, POLONIEX, KRAKEN, BINANCE, EXX, HUOBI
+from cryptofeed.defines import BITSTAMP, BITFINEX, COINBASE, GEMINI, HITBTC, POLONIEX, KRAKEN, BINANCE, EXX, HUOBI, ETALE
 
 
 def gen_pairs(exchange):
@@ -118,6 +118,32 @@ def huobi_pairs():
     r = requests.get('https://api.huobi.com/v1/common/symbols').json()
     return {'{}-{}'.format(e['base-currency'].upper(), e['quote-currency'].upper()) : '{}{}'.format(e['base-currency'], e['quote-currency']) for e in r['data']}
 
+# def etale_pairs():
+#     import json
+#     import websockets
+#     wss_url = 'wss://api-uat.etale.com/api'
+#     auth = json.dumps({'type':'LOGIN','username':'orens77@gmail.com','password':'i5P5lSyq0K'})
+#     with websockets.connect(wss_url) as ws:
+#         await ws.send(auth)
+#         msg = {"type":"MARKET_DATA_CONFIG_REQUEST"}
+#         await ws.send(json.dumps(msg))
+#         async for message in ws:
+#             msg = json.loads(message)#, parse_float=Decimal)
+#             msg_type = msg['type']
+#             if msg_type == 'MARKET_DATA_CONFIG':
+#                 return msg
+#     raise RuntimeError("could not get marget data config from api-uat.etale.com")
+
+def etale_pairs():
+    ''' 
+    not the best way to get pairs
+    we have to send auth to just get the api to respond so when it does respond 
+    it automatically sends all your balances which we have to ignore
+    '''
+    from cryptofeed.exchanges import Etale
+    return {pair:pair for pair in Etale.pair_exchanges().keys()}
+
+
 
 _exchange_function_map = {
     BITFINEX: bitfinex_pairs,
@@ -129,5 +155,6 @@ _exchange_function_map = {
     KRAKEN: kraken_pairs,
     BINANCE: binance_pairs,
     EXX: exx_pairs,
-    HUOBI: huobi_pairs
+    HUOBI: huobi_pairs,
+    ETALE: etale_pairs
 }
