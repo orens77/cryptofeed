@@ -12,7 +12,7 @@ data channel names
 from datetime import datetime as dt
 import logging
 
-from cryptofeed.defines import (CANDLES, L2L2_BOOK, L3_BOOK, TRADES, TICKER, VOLUME, FUNDING, UNSUPPORTED, BITFINEX,
+from cryptofeed.defines import (CANDLES, L2_BOOK, L3_BOOK, TRADES, TICKER, VOLUME, FUNDING, UNSUPPORTED, BITFINEX,
                                 POLONIEX, HITBTC, BITSTAMP, COINBASE, BITMEX, KRAKEN, BINANCE, EXX, HUOBI, HUOBI_US, OKCOIN,
                                 OKEX, COINBENE, ETALE, TRADES_SWAP, TICKER_SWAP, L2_BOOK_SWAP)
 from cryptofeed.pairs import gen_pairs
