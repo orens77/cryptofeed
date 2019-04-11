@@ -145,7 +145,7 @@ _feed_to_exchange_map = {
     },
     CANDLES: {
         ETALE: CANDLES
-    }
+    },
     TRADES_SWAP: {
         OKEX: 'swap/trade'
     },
