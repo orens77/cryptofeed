@@ -184,6 +184,6 @@ _exchange_function_map = {
     HUOBI_US: huobi_us_pairs,
     OKCOIN: okcoin_pairs,
     OKEX: okex_pairs,
-    COINBENE: coinbene_pairs
+    COINBENE: coinbene_pairs,
     ETALE: etale_pairs
 }
