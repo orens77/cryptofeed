@@ -12,8 +12,9 @@ data channel names
 from datetime import datetime as dt
 import logging
 
-from cryptofeed.defines import (CANDLES, L2_BOOK, L3_BOOK, TRADES, TICKER, VOLUME, FUNDING, UNSUPPORTED, BITFINEX,
-                                POLONIEX, HITBTC, BITSTAMP, COINBASE, BITMEX, KRAKEN, BINANCE, EXX, HUOBI, ETALE)
+from cryptofeed.defines import (CANDLES, L2L2_BOOK, L3_BOOK, TRADES, TICKER, VOLUME, FUNDING, UNSUPPORTED, BITFINEX,
+                                POLONIEX, HITBTC, BITSTAMP, COINBASE, BITMEX, KRAKEN, BINANCE, EXX, HUOBI, HUOBI_US, OKCOIN,
+                                OKEX, COINBENE, ETALE, TRADES_SWAP, TICKER_SWAP, L2_BOOK_SWAP)
 from cryptofeed.pairs import gen_pairs
 
 
@@ -37,6 +38,8 @@ def load_exchange_pair_mapping(exchange):
 
 
 def pair_std_to_exchange(pair, exchange):
+    if exchange == BITMEX:
+        return pair
     if pair in _std_trading_pairs:
         try:
             return _std_trading_pairs[pair][exchange]
@@ -78,6 +81,10 @@ _feed_to_exchange_map = {
         BINANCE: 'depth20',
         EXX: 'ENTRUST_ADD',
         HUOBI: 'depth.step0',
+        HUOBI_US: 'depth.step0',
+        OKCOIN: 'spot/depth',
+        OKEX: 'spot/depth',
+        COINBENE: L2_BOOK,
         ETALE: L2_BOOK,
     },
     L3_BOOK: {
@@ -91,6 +98,9 @@ _feed_to_exchange_map = {
         BINANCE: UNSUPPORTED,
         EXX: UNSUPPORTED,
         HUOBI: UNSUPPORTED,
+        HUOBI_US: UNSUPPORTED,
+        OKCOIN: UNSUPPORTED,
+        OKEX: UNSUPPORTED,
         ETALE: UNSUPPORTED
     },
     TRADES: {
@@ -104,6 +114,10 @@ _feed_to_exchange_map = {
         BINANCE: 'trade',
         EXX: 'TRADE',
         HUOBI: 'trade.detail',
+        HUOBI_US: 'trade.detail',
+        OKCOIN: 'spot/trade',
+        OKEX: 'spot/trade',
+        COINBENE: TRADES,
         ETALE: TRADES
     },
     TICKER: {
@@ -116,6 +130,10 @@ _feed_to_exchange_map = {
         KRAKEN: TICKER,
         BINANCE: 'ticker',
         HUOBI: UNSUPPORTED,
+        HUOBI_US: UNSUPPORTED,
+        OKCOIN: 'spot/ticker',
+        OKEX: 'spot/ticker',
+        COINBENE: TICKER,
         ETALE: UNSUPPORTED
     },
     VOLUME: {
@@ -127,6 +145,15 @@ _feed_to_exchange_map = {
     },
     CANDLES: {
         ETALE: CANDLES
+    }
+    TRADES_SWAP: {
+        OKEX: 'swap/trade'
+    },
+    TICKER_SWAP: {
+        OKEX: 'swap/ticker'
+    },
+    L2_BOOK_SWAP: {
+        OKEX: 'swap/depth'
     }
 }
 

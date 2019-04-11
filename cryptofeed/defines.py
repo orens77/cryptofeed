@@ -20,6 +20,10 @@ KRAKEN = 'KRAKEN'
 BINANCE = 'BINANCE'
 EXX = 'EXX'
 HUOBI = 'HUOBI'
+HUOBI_US = 'HUOBI_US'
+OKCOIN = 'OKCOIN'
+OKEX = 'OKEX'
+COINBENE = 'COINBENE'
 ETALE = 'ETALE'
 
 L2_BOOK = 'l2_book'
@@ -31,6 +35,10 @@ VOLUME = 'volume'
 FUNDING = 'funding'
 CANDLES = 'candles'
 UNSUPPORTED = 'unsupported'
+
+L2_BOOK_SWAP = 'l2_book_swap'
+TRADES_SWAP = 'trades_swap'
+TICKER_SWAP = 'ticker_swap'
 
 BUY = 'buy'
 SELL = 'sell'
@@ -113,20 +121,14 @@ Delta is in format of:
 
 for L2 books, it is as below
 for L3 books:
-    * DEL will be an array of order-id, price tuples
-    * UPD will include order-id in each tuple
+    * tuples will be order-id, price, size
 
     {
-        BID: {
-            DEL: [price, price, price, ...]
-            UPD: [(price, size), (price, size), ...]
-        },
-        ASK: {
-            DEL: [price, price, price, ...]
-            UPD: [(price, size), (price, size), ...]
-        }
+        BID: [ (price, size), (price, size), (price, size), ...],
+        ASK: [ (price, size), (price, size), (price, size), ...]
     }
 
-    DEL - price levels should be deleted (for L3 the order id should be deleted, if the price level is now empty, delete the price level)
-    UPD - prices should have the quantity set to size (these are not price deltas). For L3, add the order id at the price level
+    For L2 books a size of 0 means the price level should be deleted.
+    For L3 books, a size of 0 means the order should be deleted. If there are
+    no orders at the price, the price level can be deleted.
 """
