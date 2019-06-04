@@ -67,7 +67,7 @@ def pair_exchange_to_std(pair):
 def timestamp_normalize(exchange, ts):
     if exchange in {BITMEX, COINBASE, HITBTC, OKCOIN}:
         return pd.Timestamp(ts).timestamp()
-    elif exchange in  {HUOBI, BITFINEX, COINBENE}:
+    elif exchange in  {HUOBI, BINANCE, BITFINEX, COINBENE}:
         return ts / 1000.0
     return ts
 
