@@ -15,7 +15,7 @@ from sortedcontainers import SortedDict as sd
 from cryptofeed.exceptions import MissingSequenceNumber
 from cryptofeed.feed import Feed
 from cryptofeed.defines import TICKER, TRADES, L3_BOOK, BUY, SELL, BID, ASK, L2_BOOK, FUNDING, BITFINEX
-from cryptofeed.standards import pair_exchange_to_std
+from cryptofeed.standards import pair_exchange_to_std, timestamp_normalize
 
 
 LOG = logging.getLogger('feedhandler')
@@ -41,6 +41,9 @@ class Bitfinex(Feed):
     id = BITFINEX
 
     def __init__(self, pairs=None, channels=None, callbacks=None, **kwargs):
+        if channels is not None and FUNDING in channels:
+            if len(channels) > 1:
+                raise ValueError("Funding channel must be in a separate feedhanlder on Bitfinex or you must use config")
         super().__init__('wss://api.bitfinex.com/ws/2', pairs=pairs, channels=channels, callbacks=callbacks, **kwargs)
         self.__reset()
 
@@ -85,6 +88,7 @@ class Bitfinex(Feed):
             else:
                 order_id, timestamp, amount, price = trade
                 period = None
+            timestamp = timestamp_normalize(self.id, timestamp)
             side = SELL if amount < 0 else BUY
             amount = abs(amount)
             if period:
@@ -126,7 +130,7 @@ class Bitfinex(Feed):
         """
         For L2 book updates
         """
-        timestamp = time.time() * 1000
+        timestamp = time.time()
         chan_id = msg[0]
         pair = self.channel_map[chan_id]['symbol']
         pair = pair_exchange_to_std(pair)
@@ -180,7 +184,7 @@ class Bitfinex(Feed):
         """
         For L3 book updates
         """
-        timestamp = time.time() * 1000
+        timestamp = time.time()
 
         def add_to_book(pair, side, price, order_id, amount):
             if price in self.l3_book[pair][side]:

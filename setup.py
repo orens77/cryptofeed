@@ -27,7 +27,7 @@ class Test(TestCommand):
 
 setup(
     name="cryptofeed",
-    version="0.21.1",
+    version="0.24.0",
     author="Bryant Moscon",
     author_email="bmoscon@gmail.com",
     description=("Cryptocurrency feed handler and synthetic NBBO feed"),
@@ -47,7 +47,7 @@ setup(
     tests_require=["pytest"],
     install_requires=[
         "requests>=2.18.4",
-        "websockets>=6.0",
+        "websockets>=7.0",
         "sortedcontainers>=1.5.9",
         "pandas",
         "pyyaml",
@@ -59,6 +59,7 @@ setup(
         'redis': ['aioredis'],
         'arctic': ['arctic'],
         'zmq': ['pyzmq'],
-        'mongo': ['motor']
+        'mongo': ['motor'],
+        'kafka': ['aiokafka']
     },
 )

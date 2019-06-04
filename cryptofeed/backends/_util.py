@@ -4,8 +4,23 @@ Copyright (C) 2017-2019  Bryant Moscon - bmoscon@gmail.com
 Please see the LICENSE file for the terms and conditions
 associated with this software.
 '''
-
 from cryptofeed.defines import BID, ASK
+
+
+def book_delta_convert(delta: dict, data: dict):
+    for side in (BID, ASK):
+        for entry in delta[side]:
+            if len(entry) == 2:
+                # level 2 updates
+                price, amount = entry
+                data[side][str(price)] = str(amount)
+            else:
+                order_id, price, amount = entry
+                price = str(price)
+                if price in delta[side]:
+                    delta[side][price][str(order_id)] = str(amount)
+                else:
+                    delta[side][price] = {str(order_id): str(amount)}
 
 
 def book_convert(book: dict, data: dict, depth: int):

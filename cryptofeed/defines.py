@@ -47,10 +47,21 @@ BID = 'bid'
 ASK = 'ask'
 UND = 'undefined'
 
-DEL = 'delete'
-UPD = 'update'
+# DEL = 'delete'
+# UPD = 'update'
 
-FEE = 'fee'
+# FEE = 'fee'
+LIMIT = 'limit'
+MARKET = 'market'
+MAKER_OR_CANCEL = 'maker-or-cancel'
+FILL_OR_KILL = 'fill-or-kill'
+IMMEDIATE_OR_CANCEL = 'immediate-or-cancel'
+
+OPEN = 'open'
+PENDING = 'pending'
+FILLED = 'filled'
+PARTIAL = 'partial'
+CANCELLED = 'cancelled'
 
 """
 L2 Orderbook Layout
@@ -131,4 +142,57 @@ for L3 books:
     For L2 books a size of 0 means the price level should be deleted.
     For L3 books, a size of 0 means the order should be deleted. If there are
     no orders at the price, the price level can be deleted.
+
+
+
+Trading Responses
+
+Balances:
+
+{
+    coin/fiat: {
+        total: Decimal, # total amount
+        available: Decimal # available for trading
+    },
+    ...
+}
+
+
+Orders:
+
+[
+    {
+        order_id: str,
+        symbol: str,
+        side: str,
+        order_type: limit/market/etc,
+        price: Decimal,
+        total: Decimal,
+        executed: Decimal,
+        pending: Decimal,
+        timestamp: float,
+        order_status: FILLED/PARTIAL/CANCELLED/OPEN
+    },
+    {...},
+    ...
+
+]
+
+
+Trade history:
+[{
+    'price': Decimal,
+    'amount': Decimal,
+    'timestamp': float,
+    'side': str
+    'fee_currency': str,
+    'fee_amount': Decimal,
+    'trade_id': str,
+    'order_id': str
+    },
+    {
+        ...
+    }
+]
+
 """
