@@ -47,10 +47,10 @@ BID = 'bid'
 ASK = 'ask'
 UND = 'undefined'
 
-# DEL = 'delete'
-# UPD = 'update'
+DEL = 'delete'
+UPD = 'update'
+FEE = 'fee'
 
-# FEE = 'fee'
 LIMIT = 'limit'
 MARKET = 'market'
 MAKER_OR_CANCEL = 'maker-or-cancel'
